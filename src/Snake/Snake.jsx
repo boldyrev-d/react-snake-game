@@ -153,8 +153,8 @@ class Snake extends Component {
     const numCols = this.props.numCols || 20;
     const cellSize = 30;
 
-    for (let row = 0; row < numRows; row++) {
-      for (let col = 0; col < numCols; col++) {
+    for (let row = 0; row < numRows; row += 1) {
+      for (let col = 0; col < numCols; col += 1) {
         const code = this.state.board[numCols * row + col];
         let type;
         if (code === BODY) {
