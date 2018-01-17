@@ -44,19 +44,19 @@ function getNextIndex(head, direction, numRows, numCols) {
 class Snake extends Component {
   constructor(props) {
     super(props);
-    this.state = this._initState();
+    this.state = this.initState();
   }
 
   componentDidMount() {
-    this._resume();
-    this.timerID = setInterval(() => this._tick(), INTERVAL);
+    this.resume();
+    this.timerID = setInterval(() => this.tick(), INTERVAL);
   }
 
   componentWillUnmount() {
     clearInterval(this.timerID);
   }
 
-  _initState = () => {
+  initState = () => {
     const start = 0;
     const snake = [start];
     const board = [];
@@ -71,30 +71,30 @@ class Snake extends Component {
     };
   };
 
-  _reset = () => {
-    this.setState(this._initState);
-    this._resume();
+  reset = () => {
+    this.setState(this.initState);
+    this.resume();
     clearInterval(this.timerID);
-    this.timerID = setInterval(() => this._tick(), INTERVAL);
+    this.timerID = setInterval(() => this.tick(), INTERVAL);
   };
 
-  _pause = () => {
+  pause = () => {
     if (this.state.paused) {
       return;
     }
     this.setState({ paused: true });
   };
 
-  _resume = () => {
+  resume = () => {
     this.ref.focus();
     if (!this.state.paused) {
       return;
     }
     this.setState({ paused: false });
-    this._tick();
+    this.tick();
   };
 
-  _tick = () => {
+  tick = () => {
     if (this.state.paused) {
       return;
     }
@@ -126,9 +126,9 @@ class Snake extends Component {
     snake.unshift(head);
     board[head] = BODY;
 
-    if (this._nextDirection) {
-      direction = this._nextDirection;
-      this._nextDirection = null;
+    if (this.nextDirection) {
+      direction = this.nextDirection;
+      this.nextDirection = null;
     }
 
     this.setState({
@@ -139,11 +139,11 @@ class Snake extends Component {
     });
   };
 
-  _handleKey = (event) => {
+  handleKey = (event) => {
     const direction = event.nativeEvent.keyCode;
     const difference = Math.abs(this.state.direction - direction);
     if (DIRS[direction] && difference !== 0 && difference !== 2) {
-      this._nextDirection = direction;
+      this.nextDirection = direction;
     }
   };
 
@@ -178,15 +178,15 @@ class Snake extends Component {
           }}
           className="snake-board"
           tabIndex={0}
-          onBlur={this._pause}
-          onFocus={this._resume}
-          onKeyDown={this._handleKey}
+          onBlur={this.pause}
+          onFocus={this.resume}
+          onKeyDown={this.handleKey}
           style={{ width: numCols * cellSize, height: numRows * cellSize }}
         >
           {cells}
         </div>
         <div className="snake-controls">
-          {this.state.paused ? <button onClick={this._resume}>Resume</button> : null}
+          {this.state.paused ? <button onClick={this.resume}>Resume</button> : null}
         </div>
       </div>
     );
