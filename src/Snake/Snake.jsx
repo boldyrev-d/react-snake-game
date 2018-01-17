@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import './Snake.css';
 
 const INTERVAL = 100;
@@ -42,6 +43,12 @@ function getNextIndex(head, direction, numRows, numCols) {
 }
 
 class Snake extends Component {
+  static propTypes = {
+    numCols: PropTypes.number.isRequired,
+    numRows: PropTypes.number.isRequired,
+    toggleSetup: PropTypes.func.isRequired,
+  };
+
   constructor(props) {
     super(props);
     this.state = this.initState();

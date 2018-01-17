@@ -1,7 +1,15 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import './Settings.css';
 
 class Settings extends Component {
+  static propTypes = {
+    numCols: PropTypes.number.isRequired,
+    numRows: PropTypes.number.isRequired,
+    handleInputChange: PropTypes.func.isRequired,
+    toggleSetup: PropTypes.func.isRequired,
+  };
+
   componentDidMount() {
     this.firstInput.focus();
   }
