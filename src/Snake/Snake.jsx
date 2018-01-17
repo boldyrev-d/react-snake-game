@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './Snake.css';
 
-const INTERVAL = 80;
+const INTERVAL = 100;
 const BODY = 1;
 const FOOD = 2;
 const KEYS = {
@@ -67,7 +67,6 @@ class Snake extends Component {
       board,
       growth: 0,
       paused: false,
-      gameOver: false,
       direction: KEYS.right,
     };
   };
@@ -80,7 +79,7 @@ class Snake extends Component {
   };
 
   _pause = () => {
-    if (this.state.gameOver || this.state.paused) {
+    if (this.state.paused) {
       return;
     }
     this.setState({ paused: true });
@@ -88,7 +87,7 @@ class Snake extends Component {
 
   _resume = () => {
     this.ref.focus();
-    if (this.state.gameOver || !this.state.paused) {
+    if (!this.state.paused) {
       return;
     }
     this.setState({ paused: false });
@@ -107,7 +106,6 @@ class Snake extends Component {
     const head = getNextIndex(snake[0], direction, numRows, numCols);
 
     if (snake.indexOf(head) !== -1) {
-      this.setState({ gameOver: true });
       this.props.toggleSetup();
       return;
     }
@@ -170,7 +168,7 @@ class Snake extends Component {
           ref={(ref) => {
             this.ref = ref;
           }}
-          className={`snake-board${this.state.gameOver ? ' game-over' : ''}`}
+          className="snake-board"
           tabIndex={0}
           onBlur={this._pause}
           onFocus={this._resume}
@@ -181,7 +179,6 @@ class Snake extends Component {
         </div>
         <div className="snake-controls">
           {this.state.paused ? <button onClick={this._resume}>Resume</button> : null}
-          {this.state.gameOver ? <button onClick={this._reset}>New Game</button> : null}
         </div>
       </div>
     );
