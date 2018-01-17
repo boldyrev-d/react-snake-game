@@ -156,7 +156,15 @@ class Snake extends Component {
     for (let row = 0; row < numRows; row++) {
       for (let col = 0; col < numCols; col++) {
         const code = this.state.board[numCols * row + col];
-        const type = code === BODY ? 'body' : code === FOOD ? 'food' : 'null';
+        let type;
+        if (code === BODY) {
+          type = 'body';
+        } else if (code === FOOD) {
+          type = 'food';
+        } else {
+          type = 'null';
+        }
+
         cells.push(<div key={`r-${row} c-${col}`} className={`${type}-cell`} />);
       }
     }
