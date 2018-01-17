@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './Snake.css';
 
+const INTERVAL = 80;
 const BODY = 1;
 const FOOD = 2;
 const KEYS = {
@@ -48,7 +49,7 @@ class Snake extends Component {
 
   componentDidMount() {
     this._resume();
-    this.timerID = setInterval(() => this._tick(), 80);
+    this.timerID = setInterval(() => this._tick(), INTERVAL);
   }
 
   componentWillUnmount() {
@@ -75,7 +76,7 @@ class Snake extends Component {
     this.setState(this._initState);
     this._resume();
     clearInterval(this.timerID);
-    this.timerID = setInterval(() => this._tick(), 80);
+    this.timerID = setInterval(() => this._tick(), INTERVAL);
   };
 
   _pause = () => {
@@ -119,9 +120,7 @@ class Snake extends Component {
         ii = Math.floor(Math.random() * numCells);
       } while (board[ii]);
       board[ii] = FOOD;
-      growth += 2;
-    } else if (growth) {
-      growth -= 1;
+      growth += 1;
     } else {
       board[snake.pop()] = null;
     }
@@ -140,8 +139,6 @@ class Snake extends Component {
       growth,
       direction,
     });
-
-    // setInterval(() => this._tick(), 100);
   };
 
   _handleKey = (event) => {
