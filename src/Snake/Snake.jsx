@@ -86,34 +86,36 @@ class Snake extends Component {
   };
 
   pause = () => {
-    if (this.state.paused) {
-      return;
-    }
+    const { paused } = this.state;
+
+    if (paused) return;
     this.setState({ paused: true });
   };
 
   resume = () => {
+    const { paused } = this.state;
+
     this.ref.focus();
-    if (!this.state.paused) {
-      return;
-    }
+    if (!paused) return;
     this.setState({ paused: false });
     this.tick();
   };
 
   tick = () => {
-    if (this.state.paused) {
-      return;
-    }
+    const { paused } = this.state;
+    const { numRows: numRowsFromSettings, numCols: numColsFromSettings, toggleSetup } = this.props;
+
+    if (paused) return;
+
     const { snake, board } = this.state;
     let { growth, direction } = this.state;
 
-    const numRows = this.props.numRows || 20;
-    const numCols = this.props.numCols || 20;
+    const numRows = numRowsFromSettings || 20;
+    const numCols = numColsFromSettings || 20;
     const head = getNextIndex(snake[0], direction, numRows, numCols);
 
     if (snake.indexOf(head) !== -1) {
-      this.props.toggleSetup();
+      toggleSetup();
       return;
     }
 
@@ -147,22 +149,27 @@ class Snake extends Component {
   };
 
   handleKey = (event) => {
+    const { direction: currentDirection } = this.state;
+
     const direction = event.nativeEvent.keyCode;
-    const difference = Math.abs(this.state.direction - direction);
+    const difference = Math.abs(currentDirection - direction);
     if (DIRS[direction] && difference !== 0 && difference !== 2) {
       this.nextDirection = direction;
     }
   };
 
   render() {
+    const { board, snake, paused } = this.state;
+    const { numRows: numRowsFromSettings, numCols: numColsFromSettings } = this.props;
+
     const cells = [];
-    const numRows = this.props.numRows || 20;
-    const numCols = this.props.numCols || 20;
+    const numRows = numRowsFromSettings || 20;
+    const numCols = numColsFromSettings || 20;
     const cellSize = 30;
 
     for (let row = 0; row < numRows; row += 1) {
       for (let col = 0; col < numCols; col += 1) {
-        const code = this.state.board[numCols * row + col];
+        const code = board[numCols * row + col];
         let type;
         if (code === BODY) {
           type = 'body';
@@ -178,7 +185,10 @@ class Snake extends Component {
 
     return (
       <div className="snake-game">
-        <h1 className="snake-len">Length: {this.state.snake.length}</h1>
+        <h1 className="snake-len">
+          Length:
+          {snake.length}
+        </h1>
         <div
           ref={(ref) => {
             this.ref = ref;
@@ -193,7 +203,11 @@ class Snake extends Component {
           {cells}
         </div>
         <div className="snake-controls">
-          {this.state.paused ? <button onClick={this.resume}>Resume</button> : null}
+          {paused ? (
+            <button onClick={this.resume} type="submit">
+              Resume
+            </button>
+          ) : null}
         </div>
       </div>
     );

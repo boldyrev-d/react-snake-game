@@ -10,9 +10,9 @@ class App extends Component {
   };
 
   toggleSetup = () => {
-    this.setState({
-      setup: !this.state.setup,
-    });
+    this.setState(prevState => ({
+      setup: !prevState.setup,
+    }));
   };
 
   handleInputChange = field => (ev) => {
@@ -22,21 +22,19 @@ class App extends Component {
   };
 
   render() {
+    const { setup, numCols, numRows } = this.state;
+
     return (
       <div>
-        {this.state.setup ? (
+        {setup ? (
           <Settings
             handleInputChange={this.handleInputChange}
             toggleSetup={this.toggleSetup}
-            numCols={this.state.numCols}
-            numRows={this.state.numRows}
+            numCols={numCols}
+            numRows={numRows}
           />
         ) : (
-          <Snake
-            toggleSetup={this.toggleSetup}
-            numCols={this.state.numCols}
-            numRows={this.state.numRows}
-          />
+          <Snake toggleSetup={this.toggleSetup} numCols={numCols} numRows={numRows} />
         )}
       </div>
     );

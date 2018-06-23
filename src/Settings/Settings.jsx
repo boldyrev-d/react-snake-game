@@ -16,22 +16,28 @@ class Settings extends Component {
 
   handleSubmit = (ev) => {
     ev.preventDefault();
-    this.props.toggleSetup();
+
+    const { toggleSetup } = this.props;
+    toggleSetup();
   };
 
   render() {
+    const { numCols, numRows, handleInputChange } = this.props;
+
     return (
       <div className="settings-page">
         <form className="settings-form" onSubmit={this.handleSubmit}>
-          <h1 className="settings-title">New game</h1>
+          <h1 className="settings-title">
+New game
+          </h1>
           <label className="settings-label">
             Board width:
             <input
               className="settings-input"
               type="number"
               min="10"
-              value={this.props.numCols}
-              onChange={this.props.handleInputChange('numCols')}
+              value={numCols}
+              onChange={handleInputChange('numCols')}
               ref={(input) => {
                 this.firstInput = input;
               }}
@@ -43,11 +49,13 @@ class Settings extends Component {
               className="settings-input"
               type="number"
               min="10"
-              value={this.props.numRows}
-              onChange={this.props.handleInputChange('numRows')}
+              value={numRows}
+              onChange={handleInputChange('numRows')}
             />
           </label>
-          <button className="settings-button">Start</button>
+          <button className="settings-button" type="submit">
+            Start
+          </button>
         </form>
       </div>
     );
