@@ -30,10 +30,11 @@ class Settings extends Component {
           <h1 className="settings-title">
 New game
           </h1>
-          <label className="settings-label">
+          <label className="settings-label" htmlFor="numCols">
             Board width:
             <input
               className="settings-input"
+              id="numCols"
               type="number"
               min="10"
               value={numCols}
@@ -43,10 +44,11 @@ New game
               }}
             />
           </label>
-          <label className="settings-label">
+          <label className="settings-label" htmlFor="numRows">
             Board height:
             <input
               className="settings-input"
+              id="numRows"
               type="number"
               min="10"
               value={numRows}
